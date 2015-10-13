@@ -17,18 +17,13 @@
 
 - (id)init;
 
-- (void)popsuccess:(void (^)(id data, NSError *error))success
-           failure:(void (^)(NSError *error))failure;
+- (NSError *)pop;
 
-- (void)pushWithData:(id)data
-             success:(void (^)(NSError *error))success
-             failure:(void (^)(NSError *error))failure;
+- (NSError *)pushWithData:(id)data;
 
-- (void)getTopsuccess:(void (^)(id data, NSError *error))success
-              failure:(void (^)(NSError *error))failure;
+- (id)top;
 
-- (void)getBottomsuccess:(void (^)(id data, NSError *error))success
-                 failure:(void (^)(NSError *error))failure;
+- (BOOL)empty;
 
 - (BOOL)full;
 

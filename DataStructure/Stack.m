@@ -17,57 +17,42 @@
     return self;
 }
 
-- (void)popsuccess:(void (^)(id data, NSError *error))success
-           failure:(void (^)(NSError *error))failure {
+- (NSError *)pop {
     if (self.topNode != nil) {
         Node *popNode = self.topNode;
         self.topNode = popNode.nextNode;
         if (self.topNode!= nil) {
             self.topNode.preNode = nil;
         }
-        NSError *error = [[NSError alloc] initWithDomain:nil code:0 userInfo:nil];
-        success(popNode.data, error);
+        return [NSError errorWithDomain:@"" code:0 userInfo:nil];
     } else {
-        NSError *error = [[NSError alloc] initWithDomain:@"stack underflow" code:1 userInfo:nil];
-        failure(error);
+        return [[NSError alloc] initWithDomain:@"stack underflow" code:1 userInfo:nil];
     }
 }
 
-- (void)pushWithData:(id)data
-             success:(void (^)(NSError *error))success
-             failure:(void (^)(NSError *error))failure {
+- (NSError *)pushWithData:(id)data {
     if (self.full == YES) {
-        NSError *error = [[NSError alloc] initWithDomain:@"stack overflow" code:1 userInfo:nil];
-        failure(error);
+        return [NSError errorWithDomain:@"stack overflow" code:1 userInfo:nil];
     } else {
         Node *newNode = [[Node alloc] initWithObject:data preNode:nil nextNode:self.topNode];
         newNode.nextNode = self.topNode;
         self.topNode.preNode = newNode;
         self.topNode = newNode;
         self.count++;
-        success([[NSError alloc] init]);
+        return [NSError errorWithDomain:@"" code:0 userInfo:nil];
     }
 }
 
-- (void)getTopsuccess:(void (^)(id data, NSError *error))success
-              failure:(void (^)(NSError *error))failure {
+- (id)top {
     if (self.count == 0) {
-        NSError *error = [[NSError alloc] initWithDomain:@"stack underflow" code:1 userInfo:nil];
-        failure(error);
+        return nil;
     } else {
-        success(self.topNode.data,[[NSError alloc] init]);
+        return self.topNode.data;
     }
 }
 
-- (void)getBottomsuccess:(void (^)(id data, NSError *error))success
-                 failure:(void (^)(NSError *error))failure {
-    
-    if (self.count == 0) {
-        NSError *error = [[NSError alloc] initWithDomain:@"stack underflow" code:1 userInfo:nil];
-        failure(error);
-    } else {
-        success(self.bottomNode.data,[[NSError alloc] init]);
-    }
+- (BOOL)empty {
+    return !self.count ? YES : NO;
 }
 
 - (BOOL)full {

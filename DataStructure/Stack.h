@@ -23,6 +23,8 @@
 
 - (id)top;
 
+- (Node *)getTopNode;
+
 - (BOOL)empty;
 
 - (BOOL)full;

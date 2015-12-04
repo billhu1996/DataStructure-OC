@@ -51,6 +51,14 @@
     }
 }
 
+- (Node *)getTopNode {
+    if (self.count == 0) {
+        return nil;
+    } else {
+        return self.topNode;
+    }
+}
+
 - (BOOL)empty {
     return !self.count ? YES : NO;
 }
